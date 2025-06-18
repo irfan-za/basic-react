@@ -4,7 +4,7 @@ import { useTodoStore } from "../stores/todoStore";
 import TodoSkeleton from "./TodoSkeleton";
 
 export default function TodoList() {
-  const { todos, fetchTodos } = useTodoStore();
+  const { todos, fetchTodos, toggleTodo } = useTodoStore();
 
   useEffect(() => {
     if (todos === null) {
@@ -21,7 +21,7 @@ export default function TodoList() {
       {todos.map((todo) => (
         <div
           key={todo.id}
-          className={`p-4 rounded-lg shadow-md ${
+          className={`p-4 rounded-lg shadow-md transition-colors ${
             todo.completed ? "bg-green-50" : "bg-white"
           }`}
         >
@@ -30,8 +30,8 @@ export default function TodoList() {
               <input
                 type="checkbox"
                 checked={todo.completed}
-                readOnly
-                className="h-5 w-5 text-blue-600"
+                onChange={() => toggleTodo(todo.id)}
+                className="h-5 w-5 text-blue-600 transition-opacity disabled:opacity-50 cursor-pointer"
               />
             </div>
             <div>
@@ -44,7 +44,6 @@ export default function TodoList() {
               >
                 {todo.title}
               </h3>
-              <p className="text-sm text-gray-500">User ID: {todo.userId}</p>
             </div>
           </div>
         </div>
