@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useTodoStore } from "../stores/todoStore";
 import TodoSkeleton from "./TodoSkeleton";
+import Image from "next/image";
 
 export default function TodoList() {
   const { todos, fetchTodos, toggleTodo } = useTodoStore();
@@ -21,20 +22,22 @@ export default function TodoList() {
       {todos.map((todo) => (
         <div
           key={todo.id}
-          className={`p-4 rounded-lg shadow-md transition-colors ${
+          onClick={() => toggleTodo(todo.id)}
+          className={`p-4 rounded-lg shadow-md transition-all cursor-pointer hover:shadow-lg ${
             todo.completed ? "bg-green-50" : "bg-white"
           }`}
         >
           <div className="flex items-start">
-            <div className="mr-3">
-              <input
-                type="checkbox"
-                checked={todo.completed}
-                onChange={() => toggleTodo(todo.id)}
-                className="h-5 w-5 text-blue-600 transition-opacity disabled:opacity-50 cursor-pointer"
+            {todo.completed && (
+              <Image
+                src={"/icons/checked.svg"}
+                alt={"Todo Status Icon"}
+                width={24}
+                height={24}
+                className="transition-all"
               />
-            </div>
-            <div>
+            )}
+            <div className="ml-3">
               <h3
                 className={`font-medium ${
                   todo.completed
